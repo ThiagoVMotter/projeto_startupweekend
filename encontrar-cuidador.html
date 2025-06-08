@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encontre um Cuidador - Anjo</title>
+    
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/encontrar-cuidador.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"/>
+</head>
+<body>
+
+    <header>
+        <nav class="container">
+            <img src="img/CuidaBem.png" class="logo">
+            <ul class="nav-links">
+                <li><a href="index.html">Início</a></li>
+                <li><a href="#" class="btn btn-secondary">Baixar App</a></li>
+            </ul>
+            <div class="menu-icon">
+                <i class="fa-solid fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Seção de Busca Principal -->
+        <section id="busca-hero">
+            <div class="container">
+                <h1>Encontre o Cuidador Ideal</h1>
+                <p class="subtitle">Conecte-se com cuidadores qualificados e verificados na sua região</p>
+                
+                <div class="busca-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="tipo-cuidado">Tipo de Cuidado</label>
+                            <select id="tipo-cuidado" name="tipo-cuidado">
+                                <option value="">Selecione o tipo de cuidado</option>
+                                <option value="crianca">Cuidado Infantil</option>
+                                <option value="idoso">Cuidado de Idosos</option>
+                                <option value="especial">Necessidades Especiais</option>
+                                <option value="pet">Pet Care</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="localizacao">Localização</label>
+                            <input type="text" id="localizacao" name="localizacao" placeholder="Digite seu CEP ou cidade">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="data">Data Necessária</label>
+                            <input type="date" id="data" name="data">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="horario">Horário</label>
+                            <select id="horario" name="horario">
+                                <option value="">Selecione o horário</option>
+                                <option value="manha">Manhã (6h - 12h)</option>
+                                <option value="tarde">Tarde (12h - 18h)</option>
+                                <option value="noite">Noite (18h - 24h)</option>
+                                <option value="madrugada">Madrugada (0h - 6h)</option>
+                                <option value="integral">Período Integral</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <button type="button" class="btn btn-primary btn-buscar" onclick="buscarCuidadores()">
+                        <i class="fa-solid fa-search"></i>
+                        Buscar Cuidadores
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Filtros Avançados -->
+        <section id="filtros" class="container">
+            <div class="filtros-header">
+                <h3>Filtros Avançados</h3>
+                <button class="btn-toggle-filtros" onclick="toggleFiltros()">
+                    <i class="fa-solid fa-filter"></i>
+                    Mostrar Filtros
+                </button>
+            </div>
+            
+            <div class="filtros-content" id="filtros-content">
+                <div class="filtros-grid">
+                    <div class="filtro-group">
+                        <h4>Experiência</h4>
+                        <label><input type="checkbox" name="experiencia" value="1-2"> 1-2 anos</label>
+                        <label><input type="checkbox" name="experiencia" value="3-5"> 3-5 anos</label>
+                        <label><input type="checkbox" name="experiencia" value="5+"> Mais de 5 anos</label>
+                    </div>
+                    
+                    <div class="filtro-group">
+                        <h4>Certificações</h4>
+                        <label><input type="checkbox" name="certificacao" value="primeiros-socorros"> Primeiros Socorros</label>
+                        <label><input type="checkbox" name="certificacao" value="enfermagem"> Técnico em Enfermagem</label>
+                        <label><input type="checkbox" name="certificacao" value="pedagogia"> Pedagogia</label>
+                    </div>
+                    
+                    <div class="filtro-group">
+                        <h4>Idiomas</h4>
+                        <label><input type="checkbox" name="idioma" value="portugues"> Português</label>
+                        <label><input type="checkbox" name="idioma" value="ingles"> Inglês</label>
+                        <label><input type="checkbox" name="idioma" value="espanhol"> Espanhol</label>
+                    </div>
+                    
+                    <div class="filtro-group">
+                        <h4>Faixa de Preço (por hora)</h4>
+                        <div class="price-range">
+                            <input type="range" id="preco-min" min="15" max="100" value="15">
+                            <input type="range" id="preco-max" min="15" max="100" value="50">
+                            <div class="price-labels">
+                                <span>R$ <span id="preco-min-label">15</span></span>
+                                <span>R$ <span id="preco-max-label">50</span></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="filtros-actions">
+                    <button class="btn btn-outline" onclick="limparFiltros()">Limpar Filtros</button>
+                    <button class="btn btn-primary" onclick="aplicarFiltros()">Aplicar Filtros</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Resultados da Busca -->
+        <section id="resultados" class="container">
+            <div class="resultados-header">
+                <h3>Cuidadores Disponíveis</h3>
+                <div class="ordenacao">
+                    <label for="ordenar">Ordenar por:</label>
+                    <select id="ordenar" onchange="ordenarResultados()">
+                        <option value="relevancia">Relevância</option>
+                        <option value="avaliacao">Melhor Avaliação</option>
+                        <option value="preco-menor">Menor Preço</option>
+                        <option value="preco-maior">Maior Preço</option>
+                        <option value="distancia">Distância</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="loading" id="loading" style="display: none;">
+                <i class="fa-solid fa-spinner fa-spin"></i>
+                <p>Buscando cuidadores...</p>
+            </div>
+            
+            <div class="cuidadores-grid" id="cuidadores-grid">
+                <!-- Os resultados serão inseridos aqui via JavaScript -->
+            </div>
+            
+            <div class="no-results" id="no-results" style="display: none;">
+                <i class="fa-solid fa-search"></i>
+                <h4>Nenhum cuidador encontrado</h4>
+                <p>Tente ajustar seus filtros ou expandir a área de busca</p>
+            </div>
+        </section>
+
+        <!-- Modal de Detalhes do Cuidador -->
+        <div class="modal" id="modal-cuidador">
+            <div class="modal-content">
+                <span class="close" onclick="fecharModal()">&times;</span>
+                <div class="modal-body" id="modal-body">
+                    <!-- Conteúdo será inserido via JavaScript -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Anjo - Cuidado e Confiança. Todos os direitos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="js/encontrar-cuidador.js"></script>
+</body>
+</html>
+
