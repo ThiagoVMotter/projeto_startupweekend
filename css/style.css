@@ -100,9 +100,8 @@ nav {
 }
 
 .logo {
-    font-size: 1.8rem;
-    font-weight: 700;
-    color: var(--primary-color);
+    width: 100px;
+    height: 100px;
 }
 
 .nav-links {
