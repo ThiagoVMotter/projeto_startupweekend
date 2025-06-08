@@ -17,7 +17,7 @@
             <p>Que bom ver você de volta!</p>
         </div>
 
-        <form action="telaTeste.html" method="POST">
+        <form action="login.php" method="POST">
             
             <div class="input-group">
                 <label for="email">E-mail</label>
