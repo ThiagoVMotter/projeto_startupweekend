@@ -12,12 +12,12 @@
 <body>
     <div class="form-container">
         <div class="form-header">
-            <a href="#" class="logo">Anjo</a>
+            <a href="index.html" class="logo">Anjo</a>
             <h2>Crie sua conta</h2>
             <p>Rápido, fácil e seguro. Comece a usar a Anjo hoje mesmo.</p>
         </div>
 
-        <form action="#" method="POST" enctype="multipart/form-data">
+        <form action="processa_cadastro.php" method="POST" enctype="multipart/form-data">
             
             <div class="input-group">
                 <label>Qual é o seu objetivo?</label>
@@ -116,100 +116,8 @@
         </form>
 
         <div class="form-footer">
-            <p>Já tem uma conta? <a href="/login.html">Faça login</a></p>
+            <p>Já tem uma conta? <a href="login.php">Faça login</a></p>
         </div>
     </div>
-
-<?php
-include 'conexao.php';
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST') { 
-
-    $tipo_usuario = $_POST['tipo_usuario'];
-    $nome_completo = $_POST['nome_completo'];
-    $email = $_POST['email'];
-    $senha = $_POST['senha'];
-    $confirma_senha = $_POST['confirma_senha'];
-    $cpf = $_POST['cpf'];
-    $telefone = $_POST['telefone'];
-    $data_nascimento = $_POST['data_nascimento'];
-    $cidade = $_POST['cidade'];
-    $estado = $_POST['estado'];
-
-    if ($senha !== $confirma_senha) {
-        die("Erro: As senhas não coincidem. Por favor, volte e tente novamente.");
-    }
-    
-
-    $sql_check_email = "SELECT id FROM usuarios WHERE email = ?";
-    $stmt_check = $conn->prepare($sql_check_email);
-    $stmt_check->bind_param("s", $email);
-    $stmt_check->execute();
-    $stmt_check->store_result();
-
-    if ($stmt_check->num_rows > 0) {
-        die("Erro: Este e-mail já está cadastrado. Por favor, use outro e-mail ou faça login.");
-    }
-    $stmt_check->close();
-
-
-    $senha_hash = password_hash($senha, PASSWORD_DEFAULT);
-
-    $foto_perfil_url = null;
-    if (isset($_FILES['foto_perfil']) && $_FILES['foto_perfil']['error'] == 0) {
-        $diretorio_uploads = 'uploads/';
-        $nome_arquivo = uniqid() . '_' . basename($_FILES['foto_perfil']['name']);
-        $caminho_completo = $diretorio_uploads . $nome_arquivo;
-
-        if (move_uploaded_file($_FILES['foto_perfil']['tmp_name'], $caminho_completo)) {
-            $foto_perfil_url = $caminho_completo;
-        }
-    }
-
-
-    $sql = "INSERT INTO usuarios (
-                nome_completo, 
-                email, 
-                senha_hash, 
-                cpf, 
-                telefone, 
-                data_nascimento, 
-                cidade, 
-                estado, 
-                foto_perfil_url, 
-                tipo_usuario
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-    $stmt = $conn->prepare($sql);
-
-    if ($stmt === false) {
-        die("Erro ao preparar a query: " . $conn->error);
-    }
-    $stmt->bind_param(
-        "ssssssssss",
-        $nome_completo,
-        $email,
-        $senha_hash,
-        $cpf,
-        $telefone,
-        $data_nascimento,
-        $cidade,
-        $estado,
-        $foto_perfil_url,
-        $tipo_usuario
-    );
-
-    if ($stmt->execute()) {
-        header("Location: login.html?status=sucesso");
-        exit();
-    } else {
-        echo "Erro ao realizar o cadastro. Por favor, tente novamente.";
-        error_log("Erro no cadastro: " . $stmt->error);
-    }
-
-    $stmt->close();
-    $conn->close();
-}
-?>
 </body>
 </html>
