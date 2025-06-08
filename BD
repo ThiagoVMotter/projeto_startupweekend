@@ -1,0 +1,92 @@
+CREATE DATABASE db_startupweekend;
+USE db_startupweekend;
+
+-- Tabela principal para todos os usuários do sistema
+CREATE TABLE usuarios (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nome_completo VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    senha_hash VARCHAR(255) NOT NULL, -- Nunca armazene senhas em texto plano!
+    cpf VARCHAR(14) NOT NULL UNIQUE, -- Formato com máscara: 123.456.789-00
+    telefone VARCHAR(20),
+    data_nascimento DATE NOT NULL,
+    cidade VARCHAR(100),
+    estado VARCHAR(2),
+    foto_perfil_url VARCHAR(255),
+    tipo_usuario ENUM('CLIENTE', 'CUIDADOR') NOT NULL, -- Define o papel principal do usuário
+    data_cadastro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    ativo BOOLEAN DEFAULT TRUE
+);
+
+-- Tabela com informações adicionais e específicas de CUIDADORES
+CREATE TABLE Perfis_Cuidadores (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    usuario_id INT NOT NULL UNIQUE, -- Garante a relação 1-para-1 com a tabela Usuarios
+    biografia TEXT, -- Uma breve descrição sobre o cuidador e sua experiência
+    preco_por_hora DECIMAL(10, 2) NOT NULL, -- Valor que o cuidador cobra
+    experiencia_anos INT DEFAULT 0,
+    disponibilidade JSON, -- Ex: {"segunda": ["08:00-12:00", "14:00-18:00"], "terca": [...]}
+    documento_verificacao_url VARCHAR(255), -- Link para o documento de antecedentes, etc.
+    verificado BOOLEAN DEFAULT FALSE, -- Flag para indicar se o perfil foi verificado pela Anjo
+    FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
+);
+
+-- Tabela para os dependentes que receberão o cuidado
+CREATE TABLE Dependentes (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    cliente_usuario_id INT NOT NULL, -- ID do usuário CLIENTE responsável
+    nome_completo VARCHAR(255) NOT NULL,
+    data_nascimento DATE NOT NULL,
+    parentesco VARCHAR(50), -- Filho, Pai, Mãe, etc.
+    necessidades_especiais TEXT, -- Descrição de condições médicas ou cuidados específicos
+    FOREIGN KEY (cliente_usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
+);
+
+-- Tabela para registrar os serviços agendados (o "match")
+CREATE TABLE Agendamentos (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    cliente_usuario_id INT NOT NULL,
+    cuidador_usuario_id INT NOT NULL,
+    dependente_id INT, -- Pode ser nulo se o cuidado for para o próprio cliente
+    data_hora_inicio DATETIME NOT NULL,
+    data_hora_fim DATETIME NOT NULL,
+    valor_total DECIMAL(10, 2) NOT NULL,
+    status ENUM('SOLICITADO', 'CONFIRMADO', 'CANCELADO_CLIENTE', 'CANCELADO_CUIDADOR', 'EM_ANDAMENTO', 'CONCLUIDO', 'PAGO') NOT NULL,
+    observacoes_cliente TEXT, -- Instruções do cliente para o serviço
+    data_solicitacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (cliente_usuario_id) REFERENCES usuarios(id),
+    FOREIGN KEY (cuidador_usuario_id) REFERENCES usuarios(id),
+    FOREIGN KEY (dependente_id) REFERENCES Dependentes(id)
+);
+
+-- Tabela para as avaliações de um serviço concluído
+CREATE TABLE Avaliacoes (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    agendamento_id INT NOT NULL UNIQUE, -- Cada agendamento só pode ter uma avaliação
+    avaliador_usuario_id INT NOT NULL, -- Quem avalia (o cliente)
+    avaliado_usuario_id INT NOT NULL, -- Quem é avaliado (o cuidador)
+    nota INT NOT NULL, -- Nota de 1 a 5
+    comentario TEXT,
+    data_avaliacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (agendamento_id) REFERENCES Agendamentos(id),
+    FOREIGN KEY (avaliador_usuario_id) REFERENCES usuarios(id),
+    FOREIGN KEY (avaliado_usuario_id) REFERENCES usuarios(id)
+);
+
+-- Tabela mestre com todas as especialidades possíveis 	
+CREATE TABLE Especialidades (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(100) NOT NULL UNIQUE,
+    descricao TEXT
+);
+
+-- Tabela de junção para ligar Cuidadores a suas Especialidades (Muitos-para-Muitos)
+CREATE TABLE Cuidador_Especialidades (
+    cuidador_usuario_id INT NOT NULL,
+    especialidade_id INT NOT NULL,
+    PRIMARY KEY (cuidador_usuario_id, especialidade_id), -- Chave primária composta
+    FOREIGN KEY (cuidador_usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE,
+    FOREIGN KEY (especialidade_id) REFERENCES Especialidades(id) ON DELETE CASCADE
+);
+
+SELECT * FROM usuarios;
