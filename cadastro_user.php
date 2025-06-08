@@ -12,9 +12,9 @@
 <body>
     <div class="form-container">
         <div class="form-header">
-            <a href="index.html" class="logo">Anjo</a>
+            <img src="img/CuidaBem-simples.png" class="logo">
             <h2>Crie sua conta</h2>
-            <p>Rápido, fácil e seguro. Comece a usar a Anjo hoje mesmo.</p>
+            <p>Rápido, fácil e seguro. Comece a usar a CuidaBem hoje mesmo.</p>
         </div>
 
         <form action="processa_cadastro.php" method="POST" enctype="multipart/form-data">
