@@ -1,511 +1,562 @@
-/* ---- ESTILOS ESPECÍFICOS PARA ENCONTRAR CUIDADOR ---- */
-
-/* Seção Hero de Busca */
-#busca-hero {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
-    color: var(--white-color);
-    padding: 80px 0 60px;
-    text-align: center;
-}
-
-#busca-hero h1 {
-    color: var(--white-color);
-    font-size: 3rem;
-    margin-bottom: 1rem;
-}
-
-#busca-hero .subtitle {
-    font-size: 1.2rem;
-    margin-bottom: 2rem;
-    opacity: 0.9;
-}
-
-/* Formulário de Busca */
-.busca-form {
-    background: var(--white-color);
-    border-radius: 15px;
-    padding: 2rem;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    max-width: 900px;
-    margin: 0 auto;
-}
-
-.form-row {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1.5rem;
-    margin-bottom: 2rem;
-}
-
-.form-group {
-    display: flex;
-    flex-direction: column;
-}
-
-.form-group label {
-    color: var(--dark-color);
-    font-weight: 500;
-    margin-bottom: 0.5rem;
-    font-size: 0.9rem;
-}
-
-.form-group input,
-.form-group select {
-    padding: 12px 15px;
-    border: 2px solid #e1e5e9;
-    border-radius: 8px;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-    background: var(--white-color);
-}
-
-.form-group input:focus,
-.form-group select:focus {
-    outline: none;
-    border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
-}
-
-.btn-buscar {
-    width: 100%;
-    padding: 15px;
-    font-size: 1.1rem;
-    font-weight: 600;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-}
-
-/* Filtros Avançados */
-#filtros {
-    background: var(--light-color);
-    padding: 40px 0;
-}
-
-.filtros-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-}
-
-.filtros-header h3 {
-    margin: 0;
-    color: var(--dark-color);
-}
-
-.btn-toggle-filtros {
-    background: var(--white-color);
-    border: 2px solid var(--primary-color);
-    color: var(--primary-color);
-    padding: 10px 20px;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.btn-toggle-filtros:hover {
-    background: var(--primary-color);
-    color: var(--white-color);
-}
-
-.filtros-content {
-    background: var(--white-color);
-    border-radius: 12px;
-    padding: 2rem;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-    display: none;
-}
-
-.filtros-content.active {
-    display: block;
-    animation: slideDown 0.3s ease;
-}
-
-@keyframes slideDown {
-    from {
-        opacity: 0;
-        transform: translateY(-10px);
+// ---- DADOS SIMULADOS DE CUIDADORES ----
+const cuidadoresData = [
+    {
+        id: 1,
+        nome: "Maria Silva",
+        idade: 32,
+        tipo: "crianca",
+        experiencia: "5+",
+        certificacoes: ["primeiros-socorros", "pedagogia"],
+        idiomas: ["portugues", "ingles"],
+        preco: 25,
+        avaliacao: 4.8,
+        totalAvaliacoes: 127,
+        localizacao: "São Paulo, SP",
+        distancia: 2.5,
+        disponibilidade: ["manha", "tarde"],
+        descricao: "Pedagoga com mais de 8 anos de experiência em cuidado infantil. Especializada em desenvolvimento cognitivo e atividades educativas.",
+        foto: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face",
+        tags: ["Pedagoga", "Primeiros Socorros", "Bilíngue"]
+    },
+    {
+        id: 2,
+        nome: "João Santos",
+        idade: 28,
+        tipo: "idoso",
+        experiencia: "3-5",
+        certificacoes: ["enfermagem", "primeiros-socorros"],
+        idiomas: ["portugues"],
+        preco: 30,
+        avaliacao: 4.9,
+        totalAvaliacoes: 89,
+        localizacao: "São Paulo, SP",
+        distancia: 1.8,
+        disponibilidade: ["integral"],
+        descricao: "Técnico em enfermagem especializado em cuidado geriátrico. Experiência com pacientes com Alzheimer e mobilidade reduzida.",
+        foto: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face",
+        tags: ["Enfermagem", "Geriátrico", "24h"]
+    },
+    {
+        id: 3,
+        nome: "Ana Costa",
+        idade: 35,
+        tipo: "especial",
+        experiencia: "5+",
+        certificacoes: ["primeiros-socorros"],
+        idiomas: ["portugues", "espanhol"],
+        preco: 35,
+        avaliacao: 4.7,
+        totalAvaliacoes: 156,
+        localizacao: "São Paulo, SP",
+        distancia: 3.2,
+        disponibilidade: ["manha", "tarde", "noite"],
+        descricao: "Especialista em necessidades especiais com formação em terapia ocupacional. Experiência com autismo e deficiências físicas.",
+        foto: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face",
+        tags: ["Necessidades Especiais", "Terapia Ocupacional", "Autismo"]
+    },
+    {
+        id: 4,
+        nome: "Carlos Oliveira",
+        idade: 26,
+        tipo: "pet",
+        experiencia: "1-2",
+        certificacoes: [],
+        idiomas: ["portugues"],
+        preco: 20,
+        avaliacao: 4.6,
+        totalAvaliacoes: 43,
+        localizacao: "São Paulo, SP",
+        distancia: 4.1,
+        disponibilidade: ["manha", "tarde"],
+        descricao: "Veterinário recém-formado com paixão por animais. Experiência com cães, gatos e animais exóticos.",
+        foto: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face",
+        tags: ["Veterinário", "Pet Care", "Animais Exóticos"]
+    },
+    {
+        id: 5,
+        nome: "Lucia Ferreira",
+        idade: 42,
+        tipo: "crianca",
+        experiencia: "5+",
+        certificacoes: ["primeiros-socorros"],
+        idiomas: ["portugues", "ingles", "espanhol"],
+        preco: 28,
+        avaliacao: 4.9,
+        totalAvaliacoes: 203,
+        localizacao: "São Paulo, SP",
+        distancia: 1.2,
+        disponibilidade: ["tarde", "noite"],
+        descricao: "Babá experiente com mais de 15 anos de carreira. Especializada em cuidado noturno e rotinas de sono.",
+        foto: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face",
+        tags: ["Babá Experiente", "Cuidado Noturno", "Trilíngue"]
+    },
+    {
+        id: 6,
+        nome: "Roberto Lima",
+        idade: 38,
+        tipo: "idoso",
+        experiencia: "5+",
+        certificacoes: ["enfermagem", "primeiros-socorros"],
+        idiomas: ["portugues"],
+        preco: 32,
+        avaliacao: 4.8,
+        totalAvaliacoes: 167,
+        localizacao: "São Paulo, SP",
+        distancia: 2.8,
+        disponibilidade: ["noite", "madrugada"],
+        descricao: "Enfermeiro com especialização em cuidados paliativos. Experiência em hospitais e cuidado domiciliar.",
+        foto: "https://images.unsplash.com/photo-1582750433449-648ed127bb54?w=150&h=150&fit=crop&crop=face",
+        tags: ["Enfermeiro", "Cuidados Paliativos", "Noturno"]
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
+];
 
-.filtros-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
-    margin-bottom: 2rem;
-}
+// ---- VARIÁVEIS GLOBAIS ----
+let cuidadoresFiltrados = [...cuidadoresData];
+let filtrosAtivos = {};
 
-.filtro-group h4 {
-    color: var(--dark-color);
-    margin-bottom: 1rem;
-    font-size: 1.1rem;
-}
+// ---- FUNÇÕES DE INICIALIZAÇÃO ----
+document.addEventListener('DOMContentLoaded', function() {
+    inicializarEventos();
+    exibirCuidadores(cuidadoresData);
+});
 
-.filtro-group label {
-    display: flex;
-    align-items: center;
-    margin-bottom: 0.8rem;
-    cursor: pointer;
-    transition: color 0.3s ease;
-}
-
-.filtro-group label:hover {
-    color: var(--primary-color);
-}
-
-.filtro-group input[type="checkbox"] {
-    margin-right: 10px;
-    transform: scale(1.2);
-    accent-color: var(--primary-color);
-}
-
-/* Range de Preço */
-.price-range {
-    position: relative;
-}
-
-.price-range input[type="range"] {
-    width: 100%;
-    margin: 10px 0;
-    -webkit-appearance: none;
-    appearance: none;
-    height: 6px;
-    background: #ddd;
-    border-radius: 3px;
-    outline: none;
-}
-
-.price-range input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 20px;
-    height: 20px;
-    background: var(--primary-color);
-    border-radius: 50%;
-    cursor: pointer;
-}
-
-.price-range input[type="range"]::-moz-range-thumb {
-    width: 20px;
-    height: 20px;
-    background: var(--primary-color);
-    border-radius: 50%;
-    cursor: pointer;
-    border: none;
-}
-
-.price-labels {
-    display: flex;
-    justify-content: space-between;
-    font-weight: 500;
-    color: var(--primary-color);
-}
-
-.filtros-actions {
-    display: flex;
-    gap: 1rem;
-    justify-content: flex-end;
-}
-
-/* Resultados */
-#resultados {
-    padding: 60px 0;
-}
-
-.resultados-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 2rem;
-}
-
-.resultados-header h3 {
-    margin: 0;
-    color: var(--dark-color);
-}
-
-.ordenacao {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.ordenacao label {
-    font-weight: 500;
-    color: var(--text-color);
-}
-
-.ordenacao select {
-    padding: 8px 12px;
-    border: 2px solid #e1e5e9;
-    border-radius: 6px;
-    background: var(--white-color);
-}
-
-/* Loading */
-.loading {
-    text-align: center;
-    padding: 3rem;
-    color: var(--text-color);
-}
-
-.loading i {
-    font-size: 2rem;
-    color: var(--primary-color);
-    margin-bottom: 1rem;
-}
-
-/* Grid de Cuidadores */
-.cuidadores-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    gap: 2rem;
-}
-
-.cuidador-card {
-    background: var(--white-color);
-    border-radius: 15px;
-    padding: 1.5rem;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
-    transition: all 0.3s ease;
-    cursor: pointer;
-    border: 2px solid transparent;
-}
-
-.cuidador-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-    border-color: var(--primary-color);
-}
-
-.cuidador-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 1rem;
-}
-
-.cuidador-avatar {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background: var(--secondary-color);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--white-color);
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-right: 1rem;
-}
-
-.cuidador-info h4 {
-    margin: 0 0 0.5rem 0;
-    color: var(--dark-color);
-}
-
-.cuidador-rating {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-.stars {
-    color: #ffc107;
-}
-
-.rating-text {
-    color: var(--text-color);
-    font-size: 0.9rem;
-}
-
-.cuidador-details {
-    margin-bottom: 1rem;
-}
-
-.detail-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 0.5rem;
-    color: var(--text-color);
-    font-size: 0.9rem;
-}
-
-.detail-item i {
-    width: 20px;
-    color: var(--primary-color);
-    margin-right: 8px;
-}
-
-.cuidador-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
-}
-
-.tag {
-    background: var(--light-color);
-    color: var(--primary-color);
-    padding: 4px 8px;
-    border-radius: 12px;
-    font-size: 0.8rem;
-    font-weight: 500;
-}
-
-.cuidador-footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.preco {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: var(--primary-color);
-}
-
-.btn-contatar {
-    background: var(--primary-color);
-    color: var(--white-color);
-    border: none;
-    padding: 8px 16px;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-}
-
-.btn-contatar:hover {
-    background: #3a7bc8;
-}
-
-/* No Results */
-.no-results {
-    text-align: center;
-    padding: 3rem;
-    color: var(--text-color);
-}
-
-.no-results i {
-    font-size: 3rem;
-    color: var(--primary-color);
-    margin-bottom: 1rem;
-}
-
-.no-results h4 {
-    margin-bottom: 0.5rem;
-    color: var(--dark-color);
-}
-
-/* Modal */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    animation: fadeIn 0.3s ease;
-}
-
-.modal.active {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-.modal-content {
-    background-color: var(--white-color);
-    margin: 2rem;
-    padding: 0;
-    border-radius: 15px;
-    width: 90%;
-    max-width: 600px;
-    max-height: 90vh;
-    overflow-y: auto;
-    position: relative;
-    animation: slideUp 0.3s ease;
-}
-
-@keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-.close {
-    position: absolute;
-    right: 20px;
-    top: 20px;
-    color: var(--text-color);
-    font-size: 28px;
-    font-weight: bold;
-    cursor: pointer;
-    z-index: 1001;
-}
-
-.close:hover {
-    color: var(--primary-color);
-}
-
-.modal-body {
-    padding: 2rem;
-}
-
-/* Responsividade */
-@media (max-width: 768px) {
-    #busca-hero h1 {
-        font-size: 2.2rem;
+function inicializarEventos() {
+    // Eventos dos sliders de preço
+    const precoMin = document.getElementById('preco-min');
+    const precoMax = document.getElementById('preco-max');
+    
+    if (precoMin && precoMax) {
+        precoMin.addEventListener('input', atualizarLabelsPreco);
+        precoMax.addEventListener('input', atualizarLabelsPreco);
     }
     
-    .form-row {
-        grid-template-columns: 1fr;
+    // Evento de busca ao pressionar Enter
+    document.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            buscarCuidadores();
+        }
+    });
+}
+
+// ---- FUNÇÕES DE BUSCA E FILTROS ----
+function buscarCuidadores() {
+    mostrarLoading();
+    
+    // Simular delay de busca
+    setTimeout(() => {
+        const tipoCuidado = document.getElementById('tipo-cuidado').value;
+        const localizacao = document.getElementById('localizacao').value;
+        const data = document.getElementById('data').value;
+        const horario = document.getElementById('horario').value;
+        
+        let resultados = [...cuidadoresData];
+        
+        // Filtrar por tipo de cuidado
+        if (tipoCuidado) {
+            resultados = resultados.filter(c => c.tipo === tipoCuidado);
+        }
+        
+        // Filtrar por horário
+        if (horario) {
+            resultados = resultados.filter(c => 
+                c.disponibilidade.includes(horario) || 
+                c.disponibilidade.includes('integral')
+            );
+        }
+        
+        // Aplicar filtros avançados se existirem
+        resultados = aplicarFiltrosAvancados(resultados);
+        
+        cuidadoresFiltrados = resultados;
+        esconderLoading();
+        exibirCuidadores(resultados);
+        
+        // Scroll para resultados
+        document.getElementById('resultados').scrollIntoView({ 
+            behavior: 'smooth' 
+        });
+    }, 1500);
+}
+
+function aplicarFiltrosAvancados(cuidadores) {
+    let resultados = [...cuidadores];
+    
+    // Filtro de experiência
+    const experienciaSelecionada = Array.from(document.querySelectorAll('input[name="experiencia"]:checked'))
+        .map(cb => cb.value);
+    
+    if (experienciaSelecionada.length > 0) {
+        resultados = resultados.filter(c => experienciaSelecionada.includes(c.experiencia));
     }
     
-    .filtros-header {
-        flex-direction: column;
-        gap: 1rem;
-        align-items: stretch;
+    // Filtro de certificações
+    const certificacoesSelecionadas = Array.from(document.querySelectorAll('input[name="certificacao"]:checked'))
+        .map(cb => cb.value);
+    
+    if (certificacoesSelecionadas.length > 0) {
+        resultados = resultados.filter(c => 
+            certificacoesSelecionadas.some(cert => c.certificacoes.includes(cert))
+        );
     }
     
-    .resultados-header {
-        flex-direction: column;
-        gap: 1rem;
-        align-items: stretch;
+    // Filtro de idiomas
+    const idiomasSelecionados = Array.from(document.querySelectorAll('input[name="idioma"]:checked'))
+        .map(cb => cb.value);
+    
+    if (idiomasSelecionados.length > 0) {
+        resultados = resultados.filter(c => 
+            idiomasSelecionados.some(idioma => c.idiomas.includes(idioma))
+        );
     }
     
-    .cuidadores-grid {
-        grid-template-columns: 1fr;
+    // Filtro de preço
+    const precoMin = parseInt(document.getElementById('preco-min').value);
+    const precoMax = parseInt(document.getElementById('preco-max').value);
+    
+    resultados = resultados.filter(c => c.preco >= precoMin && c.preco <= precoMax);
+    
+    return resultados;
+}
+
+function aplicarFiltros() {
+    buscarCuidadores();
+}
+
+function limparFiltros() {
+    // Limpar checkboxes
+    document.querySelectorAll('input[type="checkbox"]').forEach(cb => cb.checked = false);
+    
+    // Resetar sliders de preço
+    document.getElementById('preco-min').value = 15;
+    document.getElementById('preco-max').value = 50;
+    atualizarLabelsPreco();
+    
+    // Reexibir todos os cuidadores
+    cuidadoresFiltrados = [...cuidadoresData];
+    exibirCuidadores(cuidadoresFiltrados);
+}
+
+function ordenarResultados() {
+    const criterio = document.getElementById('ordenar').value;
+    let resultados = [...cuidadoresFiltrados];
+    
+    switch (criterio) {
+        case 'avaliacao':
+            resultados.sort((a, b) => b.avaliacao - a.avaliacao);
+            break;
+        case 'preco-menor':
+            resultados.sort((a, b) => a.preco - b.preco);
+            break;
+        case 'preco-maior':
+            resultados.sort((a, b) => b.preco - a.preco);
+            break;
+        case 'distancia':
+            resultados.sort((a, b) => a.distancia - b.distancia);
+            break;
+        default: // relevancia
+            // Manter ordem original
+            break;
     }
     
-    .filtros-actions {
-        flex-direction: column;
-    }
+    exibirCuidadores(resultados);
+}
+
+// ---- FUNÇÕES DE INTERFACE ----
+function toggleFiltros() {
+    const filtrosContent = document.getElementById('filtros-content');
+    const btnToggle = document.querySelector('.btn-toggle-filtros');
     
-    .cuidador-footer {
-        flex-direction: column;
-        gap: 1rem;
-        align-items: stretch;
+    if (filtrosContent.classList.contains('active')) {
+        filtrosContent.classList.remove('active');
+        btnToggle.innerHTML = '<i class="fa-solid fa-filter"></i> Mostrar Filtros';
+    } else {
+        filtrosContent.classList.add('active');
+        btnToggle.innerHTML = '<i class="fa-solid fa-filter"></i> Ocultar Filtros';
     }
 }
+
+function atualizarLabelsPreco() {
+    const precoMin = document.getElementById('preco-min').value;
+    const precoMax = document.getElementById('preco-max').value;
+    
+    document.getElementById('preco-min-label').textContent = precoMin;
+    document.getElementById('preco-max-label').textContent = precoMax;
+}
+
+function mostrarLoading() {
+    document.getElementById('loading').style.display = 'block';
+    document.getElementById('cuidadores-grid').style.display = 'none';
+    document.getElementById('no-results').style.display = 'none';
+}
+
+function esconderLoading() {
+    document.getElementById('loading').style.display = 'none';
+}
+
+// ---- FUNÇÕES DE EXIBIÇÃO ----
+function exibirCuidadores(cuidadores) {
+    const grid = document.getElementById('cuidadores-grid');
+    const noResults = document.getElementById('no-results');
+    
+    if (cuidadores.length === 0) {
+        grid.style.display = 'none';
+        noResults.style.display = 'block';
+        return;
+    }
+    
+    grid.style.display = 'grid';
+    noResults.style.display = 'none';
+    
+    grid.innerHTML = cuidadores.map(cuidador => criarCardCuidador(cuidador)).join('');
+}
+
+function criarCardCuidador(cuidador) {
+    const iniciais = cuidador.nome.split(' ').map(n => n[0]).join('');
+    const estrelas = gerarEstrelas(cuidador.avaliacao);
+    
+    return `
+        <div class="cuidador-card" onclick="abrirModalCuidador(${cuidador.id})">
+            <div class="cuidador-header">
+                <div class="cuidador-avatar">${iniciais}</div>
+                <div class="cuidador-info">
+                    <h4>${cuidador.nome}</h4>
+                    <div class="cuidador-rating">
+                        <span class="stars">${estrelas}</span>
+                        <span class="rating-text">${cuidador.avaliacao} (${cuidador.totalAvaliacoes} avaliações)</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="cuidador-details">
+                <div class="detail-item">
+                    <i class="fa-solid fa-map-marker-alt"></i>
+                    <span>${cuidador.localizacao} • ${cuidador.distancia}km</span>
+                </div>
+                <div class="detail-item">
+                    <i class="fa-solid fa-clock"></i>
+                    <span>${formatarDisponibilidade(cuidador.disponibilidade)}</span>
+                </div>
+                <div class="detail-item">
+                    <i class="fa-solid fa-user-check"></i>
+                    <span>${formatarExperiencia(cuidador.experiencia)} de experiência</span>
+                </div>
+            </div>
+            
+            <div class="cuidador-tags">
+                ${cuidador.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+            </div>
+            
+            <div class="cuidador-footer">
+                <div class="preco">R$ ${cuidador.preco}/hora</div>
+                <button class="btn-contatar" onclick="event.stopPropagation(); contratarCuidador(${cuidador.id})">
+                    Contratar
+                </button>
+            </div>
+        </div>
+    `;
+}
+
+function gerarEstrelas(avaliacao) {
+    const estrelasCompletas = Math.floor(avaliacao);
+    const temMeiaEstrela = avaliacao % 1 >= 0.5;
+    let estrelas = '';
+    
+    for (let i = 0; i < estrelasCompletas; i++) {
+        estrelas += '★';
+    }
+    
+    if (temMeiaEstrela) {
+        estrelas += '☆';
+    }
+    
+    return estrelas;
+}
+
+function formatarDisponibilidade(disponibilidade) {
+    const periodos = {
+        'manha': 'Manhã',
+        'tarde': 'Tarde',
+        'noite': 'Noite',
+        'madrugada': 'Madrugada',
+        'integral': '24h'
+    };
+    
+    return disponibilidade.map(p => periodos[p]).join(', ');
+}
+
+function formatarExperiencia(experiencia) {
+    const exp = {
+        '1-2': '1-2 anos',
+        '3-5': '3-5 anos',
+        '5+': 'Mais de 5 anos'
+    };
+    
+    return exp[experiencia] || experiencia;
+}
+
+// ---- FUNÇÕES DO MODAL ----
+function abrirModalCuidador(id) {
+    const cuidador = cuidadoresData.find(c => c.id === id);
+    if (!cuidador) return;
+    
+    const modal = document.getElementById('modal-cuidador');
+    const modalBody = document.getElementById('modal-body');
+    
+    modalBody.innerHTML = criarConteudoModal(cuidador);
+    modal.classList.add('active');
+    
+    // Fechar modal ao clicar fora
+    modal.onclick = function(event) {
+        if (event.target === modal) {
+            fecharModal();
+        }
+    };
+}
+
+function criarConteudoModal(cuidador) {
+    const iniciais = cuidador.nome.split(' ').map(n => n[0]).join('');
+    const estrelas = gerarEstrelas(cuidador.avaliacao);
+    
+    return `
+        <div class="modal-header">
+            <div class="cuidador-header">
+                <div class="cuidador-avatar" style="width: 80px; height: 80px; font-size: 2rem;">${iniciais}</div>
+                <div class="cuidador-info">
+                    <h2>${cuidador.nome}</h2>
+                    <div class="cuidador-rating">
+                        <span class="stars">${estrelas}</span>
+                        <span class="rating-text">${cuidador.avaliacao} (${cuidador.totalAvaliacoes} avaliações)</span>
+                    </div>
+                    <p style="margin-top: 0.5rem; color: var(--text-color);">${cuidador.idade} anos • ${cuidador.localizacao}</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="modal-section">
+            <h3>Sobre</h3>
+            <p>${cuidador.descricao}</p>
+        </div>
+        
+        <div class="modal-section">
+            <h3>Especialidades</h3>
+            <div class="cuidador-tags">
+                ${cuidador.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
+            </div>
+        </div>
+        
+        <div class="modal-section">
+            <h3>Certificações</h3>
+            <ul>
+                ${cuidador.certificacoes.length > 0 
+                    ? cuidador.certificacoes.map(cert => `<li>${formatarCertificacao(cert)}</li>`).join('')
+                    : '<li>Nenhuma certificação informada</li>'
+                }
+            </ul>
+        </div>
+        
+        <div class="modal-section">
+            <h3>Idiomas</h3>
+            <p>${cuidador.idiomas.map(formatarIdioma).join(', ')}</p>
+        </div>
+        
+        <div class="modal-section">
+            <h3>Disponibilidade</h3>
+            <p>${formatarDisponibilidade(cuidador.disponibilidade)}</p>
+        </div>
+        
+        <div class="modal-footer">
+            <div class="preco" style="font-size: 1.5rem;">R$ ${cuidador.preco}/hora</div>
+            <button class="btn btn-primary" onclick="contratarCuidador(${cuidador.id})" style="padding: 12px 24px;">
+                Contratar Agora
+            </button>
+        </div>
+    `;
+}
+
+function formatarCertificacao(cert) {
+    const certificacoes = {
+        'primeiros-socorros': 'Primeiros Socorros',
+        'enfermagem': 'Técnico em Enfermagem',
+        'pedagogia': 'Pedagogia'
+    };
+    
+    return certificacoes[cert] || cert;
+}
+
+function formatarIdioma(idioma) {
+    const idiomas = {
+        'portugues': 'Português',
+        'ingles': 'Inglês',
+        'espanhol': 'Espanhol'
+    };
+    
+    return idiomas[idioma] || idioma;
+}
+
+function fecharModal() {
+    const modal = document.getElementById('modal-cuidador');
+    modal.classList.remove('active');
+}
+
+// ---- FUNÇÕES DE AÇÃO ----
+function contratarCuidador(id) {
+    const cuidador = cuidadoresData.find(c => c.id === id);
+    if (!cuidador) return;
+    
+    // Simular redirecionamento para login/cadastro
+    alert(`Redirecionando para login/cadastro para contratar ${cuidador.nome}...`);
+    
+    // Aqui você redirecionaria para a página de login/cadastro
+    // window.location.href = 'login.html?cuidador=' + id;
+}
+
+// ---- ESTILOS ADICIONAIS PARA O MODAL ----
+const modalStyles = `
+    .modal-header {
+        border-bottom: 1px solid #eee;
+        padding-bottom: 1rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .modal-section {
+        margin-bottom: 1.5rem;
+    }
+    
+    .modal-section h3 {
+        color: var(--primary-color);
+        margin-bottom: 0.8rem;
+        font-size: 1.2rem;
+    }
+    
+    .modal-section ul {
+        padding-left: 1.2rem;
+    }
+    
+    .modal-section li {
+        margin-bottom: 0.3rem;
+        color: var(--text-color);
+    }
+    
+    .modal-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 1.5rem;
+        border-top: 1px solid #eee;
+        margin-top: 1.5rem;
+    }
+    
+    @media (max-width: 768px) {
+        .modal-footer {
+            flex-direction: column;
+            gap: 1rem;
+            align-items: stretch;
+        }
+    }
+`;
+
+// Adicionar estilos do modal ao head
+const styleSheet = document.createElement('style');
+styleSheet.textContent = modalStyles;
+document.head.appendChild(styleSheet);
 
